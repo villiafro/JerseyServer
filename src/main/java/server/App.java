@@ -9,17 +9,21 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.ExecutionException;
+import java.sql.*;
+
 
 public class App implements Closeable {
 
     public HttpServer server;
 
-
     // Initializing base URL and Port
     public static final URI BASE_URI = URI.create("http://127.0.0.1:8080/");
 
-    public App() throws Exception {
+    String url = "jdbc:mysql://localhost:3306/javabase";
+    String username = "java";
+    String password = "password";
 
+    public App() throws Exception {
 
         //Creating a new resource config, this takes care of knowing what endpoints exist.
         ResourceConfig resourceConfig = new ResourceConfig();
@@ -29,9 +33,7 @@ public class App implements Closeable {
 
         //Initalize grizzly server with the URL and resource config, dont start it immedietly.
         server = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resourceConfig, false);
-
     }
-
 
     /**
      * This method registers resource classes to the resource config.
@@ -42,13 +44,29 @@ public class App implements Closeable {
         resourceConfig.register(HelloWorldEndpoint.class); // this registers the class helloworld to the server so we can access helloworld endpoint
     }
 
-
     /**
      * Method to start the server. simply calls the HttpServer.start() method, but just adding some logging around it.
      *
      * @throws IOException
      */
     public void start() throws IOException {
+
+        System.out.println("Loading driver...");
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Driver loaded!");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("Cannot find the driver in the classpath!", e);
+        }
+
+        System.out.println("Connecting database...");
+
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            System.out.println("Database connected!");
+        } catch (SQLException e) {
+            throw new IllegalStateException("Cannot connect the database!", e);
+        }
 
         try{
             System.out.println("Starting server");

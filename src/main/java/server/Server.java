@@ -1,10 +1,7 @@
 package server;
 
 public class Server {
-
-
     public static void main(String[] args ) throws Exception {
-
 
         //Initialize the server.
         final App app = new App();
@@ -18,7 +15,6 @@ public class Server {
             public void run(){
                 app.close();
                 System.out.println("App exiting!");
-
             }
         });
         try {
