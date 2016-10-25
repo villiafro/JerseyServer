@@ -12,7 +12,7 @@ public class Users {
     private String Password;
     private boolean Admin;
 
-    public Users(int id, String fname, String uname, String lname, String email, String pw, boolean admin){
+    public Users(int id, String fname, String lname, String uname, String pw, String email, boolean admin){
         this.Id = id;
         this.FirstName = fname;
         this.UserName = uname;

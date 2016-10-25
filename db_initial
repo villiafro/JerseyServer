@@ -1,0 +1,36 @@
+CREATE TABLE users (
+id INT NOT NULL,
+firstname VARCHAR(20),
+lastname VARCHAR(20),
+username VARCHAR(20) NOT NULL,
+password VARCHAR(20) NOT NULL,
+PRIMARY KEY (id)
+);
+
+INSERT INTO users (id,firstname,lastname,username,password)
+                  VALUES
+                  (0,"Vilhjalmur","Hannesson","villi","villi");
+
+CREATE TABLE videos(
+id INT NOT NULL,
+u_id INT NOT NULL,
+url VARCHAR(100) NOT NULL,
+PRIMARY KEY (id),
+FOREIGN KEY (u_id) REFERENCES users(id)
+);
+
+CREATE TABLE favourites(
+v_id INT NOT NULL,
+u_id INT NOT NULL,
+CONSTRAINT pk_id PRIMARY KEY (v_id, u_id),
+FOREIGN KEY (v_ID) REFERENCES videos(id),
+FOREIGN KEY (u_ID) REFERENCES users(id)
+);
+
+CREATE TABLE friends(
+one_id INT NOT NULL,
+two_id INT NOT NULL,
+CONSTRAINT pk_id PRIMARY KEY (one_id, two_id),
+FOREIGN KEY (one_id) REFERENCES users(id),
+FOREIGN KEY (two_id) REFERENCES users(id)
+);

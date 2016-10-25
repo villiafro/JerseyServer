@@ -1,5 +1,6 @@
 package server;
 
+import controller.AccountController;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -19,10 +20,6 @@ public class App implements Closeable {
     // Initializing base URL and Port
     public static final URI BASE_URI = URI.create("http://127.0.0.1:8080/");
 
-    String url = "jdbc:mysql://localhost:3306/javabase";
-    String username = "java";
-    String password = "password";
-
     public App() throws Exception {
 
         //Creating a new resource config, this takes care of knowing what endpoints exist.
@@ -41,7 +38,7 @@ public class App implements Closeable {
      * @param resourceConfig
      */
     private void registerResourcesToResourceConfig(ResourceConfig resourceConfig){
-        resourceConfig.register(HelloWorldEndpoint.class); // this registers the class helloworld to the server so we can access helloworld endpoint
+        resourceConfig.register(AccountController.class); // this registers the class helloworld to the server so we can access helloworld endpoint
     }
 
     /**
@@ -51,26 +48,10 @@ public class App implements Closeable {
      */
     public void start() throws IOException {
 
-        System.out.println("Loading driver...");
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("Driver loaded!");
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("Cannot find the driver in the classpath!", e);
-        }
-
-        System.out.println("Connecting database...");
-
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            System.out.println("Database connected!");
-        } catch (SQLException e) {
-            throw new IllegalStateException("Cannot connect the database!", e);
-        }
-
+        System.out.println("Starting server");
         try{
-            System.out.println("Starting server");
             server.start();
+            System.out.println("Server started!");
         } catch (IOException e) {
             System.out.println("Failed to start Grizzly on address: " + BASE_URI.toASCIIString());
         }

@@ -17,10 +17,10 @@ public class Server {
                 System.out.println("App exiting!");
             }
         });
+
         try {
             Thread.currentThread().join();
         } catch(InterruptedException e){
-            //TODO: add error logging here to know what happened.
             System.out.println("Interrupted when waiting in Server");
         }
     }
