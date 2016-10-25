@@ -1,8 +1,13 @@
 package models;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * Created by VilhjalmurAlex on 24/10/2016.
  */
+
+@XmlRootElement
 public class Users {
     private int Id;
     private String FirstName;
